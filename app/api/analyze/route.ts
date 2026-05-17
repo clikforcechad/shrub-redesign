@@ -5,7 +5,11 @@ import { UserPreferences, RedesignReport } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const client = new Anthropic();
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "ANTHROPIC_API_KEY is not set in environment" }, { status: 500 });
+  }
+  const client = new Anthropic({ apiKey });
   try {
     const prefs: UserPreferences = await req.json();
 
