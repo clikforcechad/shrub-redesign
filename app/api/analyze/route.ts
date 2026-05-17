@@ -6,7 +6,9 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
+  console.log("ANTHROPIC_API_KEY present:", !!apiKey, "length:", apiKey?.length ?? 0);
   if (!apiKey) {
+    console.error("ANTHROPIC_API_KEY is missing from environment");
     return NextResponse.json({ error: "ANTHROPIC_API_KEY is not set in environment" }, { status: 500 });
   }
   const client = new Anthropic({ apiKey });
